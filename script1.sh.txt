@@ -1,0 +1,15 @@
+#! /bin/bash
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+echo "MY FRIST SCRIPT" >> ~/text1.txt
+echo "" >> ~/text1.txt
+echo "***********************************" >> ~/text1.txt
+echo "LIST OF BLOCK DEVICES" >> ~/text1.txt
+lsblk >> ~/text1.txt
+echo "" >> ~/text1.txt
+echo "***********************************" >> ~/text1.txt
+echo "LIST OF FREE SPACE" >> ~/text1.txt
+df -h >> ~/text1.txt
+echo "###################################" >> ~/text1.txt
+date >> ~/text1.txt
+vgs >> ~/text1.txt

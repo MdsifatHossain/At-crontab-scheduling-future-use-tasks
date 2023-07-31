@@ -1,0 +1,103 @@
+	Scheduling Recurring Jobs With Cron
+*************************************************************************
+**Cron is a scheduling daemon that executes tasks at specified intervals. 
+These tasks are called cron jobs and are mostly used to automate system maintenance or administration.
+
+The cron jobs can be scheduled to run by a minute, hour, day of the
+ month, month, day of the week, or any combination of these.
+
+**Why use Cronjobs?
+Here are the reasons for using Cronjobs in Linux:
+
+	1. Helps OS to take a scheduled backup of log files or database.
+	2. Delete old log files
+	3. Archive and purge database tables
+	4. Send out any notification email such as Newsletters, Password expiration email
+	5. Regular clean-up of cached data
+	6. Crontab is an ideal option to automate Unix jobs.
+	7. It is used to automate system maintenance
+
+
+**/etc/cron.allow 	[contains the names of the users who are allowed to use the crontab command to submit jobs.
+**/etc/cron.deny 	[contains the names of users who are not allowed to use the crontab command to submit jobs.
+   If the /etc/cron.allow file exists, only users listed in this file can schedule cron jobs. 
+If only the /etc/cron.deny file exists, users listed in this file can’t schedule cron jobs. 
+If neither file exists, the default Linux setup enables any user to submit cron jobs.
+
+
+
+**What is Crontab File:
+Crontab (cron table) is a text file that specifies the schedule of cron jobs. 
+There are two types of crontab files. 
+The system-wide crontab files and individual user crontab files.
+
+Users' crontab files are named according to the user’s name, and their location varies by operating systems. 
+In Red Hat based distributions such as CentOS, crontab files are stored in the /var/spool/cron directory,
+while on Debian and Ubuntu files are stored in the /var/spool/cron/crontabs directory.
+
+Although you can edit the user crontab files manually, it is recommended to use the crontab command.
+The /etc/crontab file and the scripts inside the /etc/cron.d directory are system-wide crontab files 
+that can be edited only by the system administrators.
+
+In most Linux distributions you can also put scripts inside the /etc/cron.{hourly,daily,weekly,monthly} directories, 
+and the scripts will be executed every hour/day/week/month.
+
+**Crontab Syntax and Operators:
+Each line in the user crontab file contains six fields separated by a space followed by the command to be run.
+
+* * * * * command(s)
+- - - - -
+| | | | |
+| | | | ----- Day of week (0 - 7) (Sunday=0 or 7)
+| | | ------- Month (1 - 12)
+| | --------- Day of month (1 - 31)
+| ----------- Hour (0 - 23)
+------------- Minute (0 - 59)
+
+	[* - The asterisk operator means any value or always. 
+If you have the asterisk symbol in the Hour field, it means the task will be performed each hour.]
+
+**Linux Crontab Command
+
+	1. crontab -e 	Edit crontab file, or create one if it doesn’t already exist.
+	2. crontab -l 	Display crontab file contents.
+	3. crontab -r 	Remove your current crontab file.
+	4. crontab -i 	Remove your current crontab file with a prompt before removal.
+	5. crontab -u <username> - Edit other user crontab file. This option requires system administrator privileges.
+
+**Cron Jobs Examples #
+Below are some cron job examples that show how to schedule a task to run on different time periods.
+
+1. Run a command at 15:00 on every day from Monday through Friday:
+	0 15 * * 1-5 command
+
+2. Run a script every 5 minutes and redirected the standard output to dev null, only the standard error will be sent to the specified e-mail address:
+	MAILTO=email@example.com
+	*/5 * * * * /path/to/script.sh > /dev/null
+
+3. Run two commands every Monday at 3 PM (use the operator && between the commands):
+	0 15 * * Mon command1 && command2
+
+4. Run a PHP script every 2 minutes and write the output to a file :
+	*/2 * * * * /usr/bin/php /path/to/script.php >> /var/log/script.log
+
+5. Run a script every day, every hour, on the hour, from 8 AM through 4 PM:
+	0 08-16 * * * /path/to/script.sh
+
+6. Run a script on the first Monday of each month, at 7 a.m.
+	0 7 1-7 * 1 /path/to/script.sh
+
+7. Run the a script at 9:15pm, on the 1st and 15th of every month:
+	15 9 1,15 * * /path/to/script.sh
+
+8. Set custom HOME, PATH, SHELL and MAILTO variables and run a command every minute.
+
+HOME=/opt
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+SHELL=/usr/bin/zsh
+MAILTO=email@example.com
+
+*/1 * * * * command
+
+
+

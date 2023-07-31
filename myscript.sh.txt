@@ -1,0 +1,1 @@
+echo "My Name is Abdur ROuf" >> /root/myname.txt

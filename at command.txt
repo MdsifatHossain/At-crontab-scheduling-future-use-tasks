@@ -1,0 +1,106 @@
+		at command
+****************************************************************
+
+**Scheduling one-time jobs with at:
+	While working with Linux systems we preferred crontab for scheduling jobs generally. 
+There are another utility at command is very useful for scheduling one time tasks. 
+It reads commands from standard input or script/file which can be executed later once. 
+But we can’t use at command for any recurring tasks. For recurring tasks use Linux crontab.
+
+
+At command can be useful for shutdown system at the specified time, 
+Taking a one-time backup, sending email as a reminder at the specified time etc.
+
+**/etc/at.allow 	[contains the names of the users who may use the at command to submit jobs.
+**/etc/at.deny 	[contains the names of users who are not allowed to use the at command to submit jobs.
+   If these files aren’t present, or if you find an empty /etc/at.deny file, any user can submit jobs by using the at command. 
+The default in Linux is an empty /etc/at.deny file; when this default is in place, anyone can use the at command. 
+If you don’t want some users to use at, simply list their usernames in the /etc/at.deny file. 
+
+**Commands used with at:
+	1. at : execute commands at specified time.
+	2. atq : lists the pending jobs of users.
+	3. atrm : delete jobs by their job number
+
+***[root@redhatsifat ~]# atq
+9       Wed Jul 14 15:17:00 2021 a root
+10      Thu Jul 15 10:00:00 2021 a root
+11      Thu Jul 15 12:00:00 2021 a root
+13      Thu Jul 15 16:00:00 2021 a root
+**Fields description:
+	1.First filed: job id
+	2.Second filed: Job execution date
+	3.third filed: Job execution time
+	4.Last field: User name, under which job is scheduled.
+
+
+**Create schedule with at:
+	#at  time,date 
+	[root@redhatsifat ~]# at 11:20 14.07.2021
+warning: commands will be executed using /bin/sh
+at> ls>>/root/file8
+at> <EOT>
+	[root@redhatsifat ~]# at now+2min
+warning: commands will be executed using /bin/sh
+at> touch /root/Documents/filee
+at> <EOT>
+job 5 at Wed Jul 14 11:56:00 2021
+
+**Take input from scripts file:
+	#at teatime <script file name
+[root@redhatsifat ~]# at now+2min <ls.sh
+warning: commands will be executed using /bin/sh
+job 6 at Wed Jul 14 12:01:00 2021
+
+**Schedule a job to run at 16 : 00 tomorrow, using the g queue. This job should create a
+new file called /home/student/tea.
+
+[student@desktopX -]$ at -q g teatime tomorrow
+at> touch /home/student/tea
+at> Ctrl+D
+
+**Using parameters:
+	1.Teatime(16:00)
+	2.noon (12:00PM)
+	3.now
+	4.midnight(12:00 AM)
+	5.Tomorrow
+
+**at command with flag:
+	1.#at -l 			[list all the pending jobs same atq
+	2.#at -c jobs number 	[Inspect your pending jobs. Inspect the actual commands your jobs will run as well
+	3.#atrm jobs number 	[delete jobs
+
+***Examples:
+1. Schedule task at coming 10:00 AM.
+	#at 10:00 AM
+2. Schedule task at 10:00 AM on coming Sunday.
+	#at 10:00 AM Sun
+3. Schedule task at 10:00 AM on coming 25’th July.
+	#at 10:00 AM July 25
+4. Schedule task at 10:00 AM on coming 22’nd June 2015.
+	#at 10:00 AM 6/22/2015
+	#at 10:00 AM 6.22.2015
+5. Schedule task at 10:00 AM on the same date at next month.
+	#at 10:00 AM next month
+6. Schedule task at 10:00 AM tomorrow.
+	#at 10:00 AM tomorrow
+7. Schedule task at 10:00 AM tomorrow.
+	#at 10:00 AM tomorrow
+8. Schedule task to execute just after 1 hour.
+	#at now + 1 hour
+9. Schedule task to execute just after 30 minutes.
+	#at now + 30 minutes
+10. Schedule task to execute just after 1 and 2 weeks.
+	#at now + 1 week
+	#at now + 2 weeks
+11. Schedule task to execute just after 1 and 2 years.
+	#at now + 1 year
+	#at now + 2 years
+
+
+
+ 
+
+
+
